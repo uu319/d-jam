@@ -145,33 +145,60 @@ export default class VoteRoom extends React.Component {
     const items = [];
 
 
-
-
     const testPosts = [];
     _.mapKeys(posts, data => {
       testPosts.push(data);
     });
-    const uniqPosts = _.uniqBy(testPosts, post => post.content);
-    console.log('my uniq post',uniqPosts);
-    console.log('posts', posts);
-    _.mapKeys(posts, (data, index) => {
-      items.push(
-        <VoteCounter
-          {...data}
-          key={index}
-          id={index}
-          userId={this.state.userId}
-          roomCode={this.state.roomCode}
-          max={parseInt(maxVotes, 10)}
-          current={yourCurrentTotal}
-          currentVote={this.state.currentVote}
-          addCurrentVote={this.addCurrentVote}
-        />,
-      );
-    });
-  //  let newItems= _.uniqBy(items)
+    // console.log('my uniq post',uniqPosts);
+    // console.log('posts', posts);
 
-    return items;
+    // _.mapKeys(posts, (data, index) => {
+    //   console.log(data);
+    //   items.push(
+    //     <VoteCounter
+    //       {...data}
+    //       key={index}
+    //       id={index}
+    //       userId={this.state.userId}
+    //       roomCode={this.state.roomCode}
+    //       max={parseInt(maxVotes, 10)}
+    //       current={yourCurrentTotal}
+    //       currentVote={this.state.currentVote}
+    //       addCurrentVote={this.addCurrentVote}
+    //     />,
+    //   );
+    // });
+    _.mapKeys(posts, (data, index) => {
+      items.push({
+        data,
+        index,
+        userId: this.state.userId,
+        roomCode:this.state.roomCode,
+        max: parseInt(maxVotes, 10),
+        current:yourCurrentTotal,
+        currentVote:this.state.currentVote,
+        addCurrentVote:this.addCurrentVote,
+      });
+    });
+    const uniqueItems = _.uniqBy(items, item => item.data.content);
+    console.log('uniqueItems', uniqueItems);
+
+    return uniqueItems.map(data =>
+      // console.log('data.content', data.data.content);
+      // console.log('data',data);
+      <VoteCounter
+        {...data.data}
+        key={data.index}
+        id={data.index}
+        userId={this.state.userId}
+        roomCode={this.state.roomCode}
+        max={parseInt(maxVotes, 10)}
+        current={yourCurrentTotal}
+        currentVote={this.state.currentVote}
+        addCurrentVote={this.addCurrentVote}
+      />
+    );
+    // return items;
   };
 
   render() {
@@ -208,7 +235,7 @@ export default class VoteRoom extends React.Component {
           </View>
         </View>
         <ScrollView>
-          <View>{this.VoteItems()}</View>
+           <View>{this.VoteItems()}</View>
         </ScrollView>
         <View style={styles.button}>
           {this.state.roomData.adminId === this.state.userId && (

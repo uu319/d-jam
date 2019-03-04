@@ -97,30 +97,26 @@ export default class PostRoom extends PureComponent {
 
   setTimer = roomValues => {
     //    console.console.log;
-    // const { targetTime } = this.state.roomData;
-    // if (!roomValues.metadata.target_time) {
-    //   // no target time. don't start timer. do nothing
-    // } else if (!targetTime && roomValues.metadata.target_time) {
-    //   // start timer
-    //   const currentTime = new Date().getTime();
-    //   this.setState({
-    //     countdownTimer: (roomValues.metadata.target_time - currentTime) / 1000,
-    //   });
-    //   this.startTimer();
-    // } else if (targetTime && targetTime !== roomValues.metadata.target_time) {
-    //   // target time has changed. adjust ours.
-    //   const currentTime = new Date().getTime();
-    //   this.setState({
-    //     countdownTimer: (roomValues.metadata.target_time - currentTime) / 1000,
-    //   });
-    //   this.startTimer();
-    // } else {
-    //   // assume that targetTime is still the same. keep things as is
-    // }
-    const currentTime = new Date().getTime();
-    this.setState({
-      countdownTimer: (roomValues.metadata.target_time - currentTime) / 1000,
-    });
+    const { targetTime } = this.state.roomData;
+    if (!roomValues.metadata.target_time) {
+      // no target time. don't start timer. do nothing
+    } else if (!targetTime && roomValues.metadata.target_time) {
+      // start timer
+      const currentTime = new Date().getTime();
+      this.setState({
+        countdownTimer: (roomValues.metadata.target_time - currentTime) / 1000,
+      });
+      this.startTimer();
+    } else if (targetTime && targetTime !== roomValues.metadata.target_time) {
+      // target time has changed. adjust ours.
+      const currentTime = new Date().getTime();
+      this.setState({
+        countdownTimer: (roomValues.metadata.target_time - currentTime) / 1000,
+      });
+      this.startTimer();
+    } else {
+      // assume that targetTime is still the same. keep things as is
+    }
     this.startTimer();
   };
 
@@ -150,10 +146,12 @@ export default class PostRoom extends PureComponent {
     let { countdownTimer } = this.state;
     const { targetTime } = this.state.roomData;
     // i have to check this
-    if (countdownTimer < 0) {
-      this.setState({ countdownTimer: 0 });
+    if (targetTime) {
       const currentTime = new Date().getTime();
       countdownTimer = (targetTime - currentTime) / 1000;
+    }
+    if (countdownTimer < 0 || targetTime- new Date().getTime() < 0) {
+      this.setState({ countdownTimer: 0 });
     }
 
     const minutes = parseInt(countdownTimer / 60, 10);
@@ -163,7 +161,7 @@ export default class PostRoom extends PureComponent {
     const time = `${minutes}:${seconds}`;
 
     this.setState({
-      placeholder: `${countdownTimer ? time : '0:00'} | Suggest...`,
+      placeholder: `${countdownTimer && countdownTimer > 0 ? time : '0:00'} | Suggest...`,
     });
   };
   extendTimer = () => {
@@ -174,7 +172,7 @@ export default class PostRoom extends PureComponent {
       let timestamp = targetTimeTimestamp;
 
       if (!timestamp || timestamp - new Date().getTime() < 0) {
-        // console.log('time now is greater than the current targetTime');
+        // time now is greater than the current targetTime');
         timestamp = new Date().getTime();
       }
       return timestamp + 12000;
@@ -298,7 +296,7 @@ export default class PostRoom extends PureComponent {
 
     return (
       <View style={styles.container} behavior="padding" enabled>
-        <Text>{roomCode}</Text>
+        <Text style={{fontSize:24}}>{roomCode}</Text>
         <View style={styles.container}>
           <TopicInput
             roomCode={roomCode}
