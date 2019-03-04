@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1084388827921",
+    "firebase_url": "https://crowd-jam.firebaseio.com",
+    "project_id": "crowd-jam",
+    "storage_bucket": "crowd-jam.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084388827921:android:8d6082c3a26f14d1",
+        "android_client_info": {
+          "package_name": "com.decisionjammobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084388827921-hg26cl4cp56e7k61ni7o2v41gjut2t3a.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1084388827921-hg26cl4cp56e7k61ni7o2v41gjut2t3a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNoxoFCEqiMZ05iKHJzmLaWoIyFdPwhV8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

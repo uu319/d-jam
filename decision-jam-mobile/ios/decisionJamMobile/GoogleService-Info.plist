@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>1084388827921-pni0cg9e1fpa7m8ceuc03a6t2phnkuie.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1084388827921-pni0cg9e1fpa7m8ceuc03a6t2phnkuie</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAjqgNiigodU2DH2eRdKaXkrF1MUUBbU-o</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1084388827921</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.decisionjammobile</string>
+	<key>PROJECT_ID</key>
+	<string>crowd-jam</string>
+	<key>STORAGE_BUCKET</key>
+	<string>crowd-jam.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1084388827921:ios:8d6082c3a26f14d1</string>
+	<key>DATABASE_URL</key>
+	<string>https://crowd-jam.firebaseio.com</string>
+</dict>
+</plist>

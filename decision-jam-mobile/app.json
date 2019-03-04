@@ -1,0 +1,8 @@
+{
+  "name": "decisionJamMobile",
+  "displayName": "Decision Jam",
+  "icon": "./icon.png",
+  "description": "Crowdsource ideas",
+  "version": "1.0.1",
+  "orientation": "portrait"
+}
