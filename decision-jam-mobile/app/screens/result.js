@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { GLOBAL_STYLES, STAGE_REVEAL, STAGE_POST } from '../config/constants';
 import Result from '../components/postedItem';
 import Button from '../components/button';
+import PromptAlert from '../components/alert';
 
 const roomData = {
   post_contents: [],
@@ -23,6 +24,7 @@ export default class ResultRoom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      restartAlertVisible:false,
       userId: this.props.navigation.getParam('userId', null),
       roomCode: this.props.navigation.getParam('roomCode', null),
       roomData,
@@ -40,33 +42,11 @@ export default class ResultRoom extends React.Component {
   }
 
   onPress = page => {
-    const { roomCode } = this.state;
     const { navigation } = this.props;
-    let targetTime = new Date().getTime();
-    targetTime += 92 * 1000;
     if (page === 'Post') {
+      this.setState({ restartAlertVisible: true });
       // Restart jam
-      const database = firebase.database();
-      const roomStage = database.ref(`rooms/${roomCode}/metadata/stage`);
-      const targetTimeRef = database.ref(`rooms/${roomCode}/metadata/target_time`);
 
-      const user = Object.keys(this.state.roomData.users);
-
-      // clear ideas
-      database.ref(`rooms/${roomCode}/posts`).remove();
-
-      // clear votes
-      for (let i = 0; i < user.length; i += 1) {
-        const userRef = database.ref(`rooms/${roomCode}/users/${user[i]}`);
-        userRef.set({ current_votes: { nothing: 0 } }, error => {
-          if (error) {
-            console.log(error);
-          }
-        });
-      }
-
-      roomStage.set(STAGE_POST);
-      targetTimeRef.set(targetTime);
     } else {
       // roomCode -> null :: avoids going back to Post page when admin restarts jam, considering the user joined the room after the jam. Does not work when user joined before jam ended
       this.state.roomCode = null;
@@ -79,6 +59,32 @@ export default class ResultRoom extends React.Component {
         });
       }
     }
+  };
+  onAlertConfirm = () => {
+    this.setState({ restartAlertVisible: false });
+    const { roomCode } = this.state;
+    let targetTime = new Date().getTime();
+    targetTime += 92 * 1000;
+    const database = firebase.database();
+    const roomStage = database.ref(`rooms/${roomCode}/metadata/stage`);
+    const targetTimeRef = database.ref(`rooms/${roomCode}/metadata/target_time`);
+    const user = Object.keys(this.state.roomData.users);
+    // clear ideas
+    database.ref(`rooms/${roomCode}/posts`).remove();
+    // clear votes
+    for (let i = 0; i < user.length; i += 1) {
+      const userRef = database.ref(`rooms/${roomCode}/users/${user[i]}`);
+      userRef.set({ current_votes: { nothing: 0 } }, error => {
+        if (error) {
+          console.log(error);
+        }
+      });
+    }
+    roomStage.set(STAGE_POST);
+    targetTimeRef.set(targetTime);
+  };
+  onAlertCancel = () => {
+    this.setState({ restartAlertVisible: false });
   };
 
   listenToRoomChanges = () => {
@@ -161,6 +167,11 @@ export default class ResultRoom extends React.Component {
     const { adminId, topic } = this.state.roomData;
     return (
       <View style={styles.container}>
+      <PromptAlert
+        visible={this.state.restartAlertVisible}
+        onModalConfirm={this.onAlertConfirm}
+          onModalCancel={this.onAlertCancel}
+        />
         <View style={styles.header}>
           <Text style={styles.title}>Hooray! We&apos;ve got winners!</Text>
           <Text
