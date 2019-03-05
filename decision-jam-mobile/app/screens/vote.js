@@ -7,6 +7,7 @@ import { GLOBAL_STYLES, STAGE_VOTE, STAGE_REVEAL, STAGE_POST } from '../config/c
 import VoteCounter from '../components/voteCounter';
 import MaxVoteSetting from '../components/maxVoteSetting';
 import Button from '../components/button';
+import PromptAlert from '../components/alert';
 
 const roomData = {
   currentVotes: 0,
@@ -22,6 +23,7 @@ export default class VoteRoom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      voteAlertVisible:false,
       userId: this.props.navigation.getParam('userId', null),
       roomCode: this.props.navigation.getParam('roomCode', null),
       roomData,
@@ -37,12 +39,30 @@ export default class VoteRoom extends React.Component {
 
   componentWillUnmount() {
     this.listenToRoomChanges = null;
+    this.setState({ voteAlertVisible: false });
   }
 
+
   onPress = page => {
+    // console.log('totalGivenVotes',this.state.roomData.totalGivenVotes);
+    // console.log('maxVoteCount', this.state.roomData.maxVotesCount);
+    // {totalGivenVotes} / {maxVotesCount}
+    if (this.state.roomData.totalGivenVotes === this.state.roomData.maxVotesCount) {
+      const roomStage = firebase.database().ref(`rooms/${this.state.roomCode}/metadata/stage`);
+      const stage = page === 'Post' ? STAGE_POST : STAGE_REVEAL;
+      roomStage.set(stage);
+    } else {
+      this.setState({ voteAlertVisible: true });
+    }
+  };
+  onAlertConfirm = page => {
+    this.setState({ voteAlertVisible: false });
     const roomStage = firebase.database().ref(`rooms/${this.state.roomCode}/metadata/stage`);
     const stage = page === 'Post' ? STAGE_POST : STAGE_REVEAL;
     roomStage.set(stage);
+  };
+  onAlertCancel = () => {
+    this.setState({ voteAlertVisible: false });
   };
 
   getCurrentVotes = curVotes => {
@@ -67,6 +87,7 @@ export default class VoteRoom extends React.Component {
   refreshRoom = roomValues => {
     let { posts, users } = roomValues;
     const { metadata } = roomValues;
+    console.log('roomValues',roomValues);
     // console.log(posts);
 
     if (_.isEmpty(posts)) posts = {};
@@ -141,16 +162,7 @@ export default class VoteRoom extends React.Component {
 
   VoteItems = () => {
     const { posts, yourCurrentTotal, maxVotes } = this.state.roomData;
-
     const items = [];
-
-
-    const testPosts = [];
-    _.mapKeys(posts, data => {
-      testPosts.push(data);
-    });
-    // console.log('my uniq post',uniqPosts);
-    // console.log('posts', posts);
 
     // _.mapKeys(posts, (data, index) => {
     //   console.log(data);
@@ -181,23 +193,22 @@ export default class VoteRoom extends React.Component {
       });
     });
     const uniqueItems = _.uniqBy(items, item => item.data.content);
-    console.log('uniqueItems', uniqueItems);
+    // console.log('uniqueItems', uniqueItems);
 
-    return uniqueItems.map(data =>
-      // console.log('data.content', data.data.content);
-      // console.log('data',data);
-      <VoteCounter
-        {...data.data}
-        key={data.index}
-        id={data.index}
-        userId={this.state.userId}
-        roomCode={this.state.roomCode}
-        max={parseInt(maxVotes, 10)}
-        current={yourCurrentTotal}
-        currentVote={this.state.currentVote}
-        addCurrentVote={this.addCurrentVote}
-      />
-    );
+    return uniqueItems.map(data =>{
+      console.log('data passed to vouteCounter',data);
+      return <VoteCounter
+          {...data.data}
+          key={data.index}
+          id={data.index}
+          userId={this.state.userId}
+          roomCode={this.state.roomCode}
+          max={parseInt(maxVotes, 10)}
+          current={yourCurrentTotal}
+          currentVote={this.state.currentVote}
+          addCurrentVote={this.addCurrentVote}
+        />
+    });
     // return items;
   };
 
@@ -213,6 +224,10 @@ export default class VoteRoom extends React.Component {
 
     return (
       <View style={styles.container}>
+        <PromptAlert
+          visible={this.state.voteAlertVisible}
+          onModalConfirm={this.onAlertConfirm}
+          onModalCancel={this.onAlertCancel}/>
         <Text style={styles.title}> {topic} </Text>
         {adminId === this.state.userId && (
           <View>
