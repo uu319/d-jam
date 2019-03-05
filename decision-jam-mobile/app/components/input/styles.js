@@ -20,11 +20,13 @@ export default StyleSheet.create({
   },
   textInput: {
     flex: 0.5,
-    fontSize: 40,
+    fontSize: 30,
     textAlign: 'center',
     color: GLOBAL_STYLES.BRAND_COLOR,
     fontWeight: 'bold',
     width: Dimensions.get('window').width * 0.8,
+    borderColor: '#fc3f73',
+    borderWidth: 1,
   },
   iconStyle: {
     padding: 10,

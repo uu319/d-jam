@@ -1,8 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions, Text } from 'react-native';
+import { StyleSheet, View, Dimensions, Text, Alert } from 'react-native';
 import firebase from 'react-native-firebase';
 import { GLOBAL_STYLES } from '../config/constants';
-
 import Button from '../components/button';
 import BrandedText, { TYPE_LABEL } from '../components/brandedText';
 
@@ -75,8 +74,24 @@ export default class Landing extends React.Component {
     },
   ];
 
+  _alert = () => {
+    Alert.alert(
+      // title
+      'Hello',
+      // body
+      'I am two option alert. Do you want to cancel me ?',
+      [
+        { text: 'Yes', onPress: () => console.log('Yes Pressed') },
+        { text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel' },
+      ],
+      { cancelable: false },
+      // clicking out side of alert will not cancel
+    );
+  };
+
   render() {
     if (this.state.loading) return null; // create loader component
+    // <Button title='Alert' onPress={this._alert}/>
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -87,6 +102,7 @@ export default class Landing extends React.Component {
             Post, Vote, Reveal: Crowdsource ideas and make better decisions quickly with your team
           </Text>
         </View>
+
         <View style={styles.buttonGroup}>
           {this.buttons.map(button => (
             <View key={button.index} style={styles.button}>
@@ -103,12 +119,13 @@ export default class Landing extends React.Component {
         <View style={styles.footer}>
           <BrandedText
             style={styles.feedback}
-            content="©2018 Decision Jam | Made by Symph"
+            content="© 2018 Decision Jam | Made with 💖 by Symph"
             type={TYPE_LABEL}
           />
+          <BrandedText style={styles.feedback} content="We love your feedback." type={TYPE_LABEL} />
           <BrandedText
-            style={styles.feedback}
-            content="We love your feedback. Send to decisionjam@symph.co"
+            style={styles.link}
+            content="Send to decisionjam@symph.co"
             type={TYPE_LABEL}
           />
         </View>
@@ -158,5 +175,9 @@ const styles = StyleSheet.create({
   },
   feedback: {
     textAlign: 'center',
+  },
+  link: {
+    textAlign: 'center',
+    color: '#fc3f73',
   },
 });

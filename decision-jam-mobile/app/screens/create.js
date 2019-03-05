@@ -13,7 +13,7 @@ const placeHolder = ['Start typing a topic', 'Where should we eat out?', 'How mi
 export default class CreateRoom extends React.Component {
   state = {
     content: placeHolder[2],
-    ctr: 0,
+    ctr: 2,
     text: '',
     userId: this.props.navigation.getParam('userId', null),
     roomCode: null,
@@ -62,7 +62,7 @@ export default class CreateRoom extends React.Component {
       max_votes: 2,
       admin: this.state.userId,
       topic: this.state.text === '' ? 'Topics? Ideas?' : this.state.text.trim(),
-      target_time:targetTime,
+      target_time: targetTime,
       stage: STAGE_POST,
     };
 
@@ -84,7 +84,7 @@ export default class CreateRoom extends React.Component {
 
     usersDataRef.set({ current_votes: { nothing: 0 } }, error => {
       if (error) {
-        console.log('error trying to join. will try to create.', error);
+        console.log('Error trying to join. Will try to create.', error);
         this.initializeRoom(roomCode);
       } else {
         this.navigateScreen();
@@ -118,6 +118,7 @@ export default class CreateRoom extends React.Component {
           value={this.state.text}
           placeholder={this.state.content}
           placeholderTextColor="gray"
+          border="black"
         />
         <View style={styles.button}>
           <Button
