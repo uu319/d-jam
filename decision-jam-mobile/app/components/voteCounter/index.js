@@ -22,7 +22,7 @@ export default class VoteCounter extends PureComponent {
       current[this.props.id] += direction;
 
       const newCurrentTotal = this.props.current + direction;
-      console.log(newCurrentTotal, this.props.max);
+      // console.log(newCurrentTotal, this.props.max);
 
       if (current[this.props.id] < 0 || newCurrentTotal > this.props.max) {
         return undefined;
@@ -32,7 +32,7 @@ export default class VoteCounter extends PureComponent {
   };
 
   adjustVote = direction => {
-    console.log('adjustVote');
+    // console.log('adjustVote');
     const postRef = firebase
       .database()
       .ref(`rooms/${this.props.roomCode}/posts/${this.props.id}/votes`);
@@ -41,8 +41,8 @@ export default class VoteCounter extends PureComponent {
       tally => {
         const newTally = (tally || 0) + direction;
         const newCurrentTotal = this.props.current + direction;
-        console.log(newCurrentTotal, this.props.max);
-        console.log(newTally);
+        // console.log(newCurrentTotal, this.props.max);
+        // console.log(newTally);
         if (newTally < 0 || newCurrentTotal > this.props.max) {
           return undefined; /* abort the transction */
         }
@@ -74,6 +74,7 @@ export default class VoteCounter extends PureComponent {
   };
 
   render() {
+    console.log('VoteCounterProps',this.props);
     return (
       <View style={styles.content}>
         <Text style={styles.itemprop}> {this.props.content}</Text>
