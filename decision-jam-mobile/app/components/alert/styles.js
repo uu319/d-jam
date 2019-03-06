@@ -10,7 +10,7 @@ export default StyleSheet.create({
   },
   viewContainer: {
     width:'80%',
-    height:'30%',
+    height:'34%',
     padding:20,
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -20,17 +20,14 @@ export default StyleSheet.create({
   buttonContainer:{
     flexDirection:'row',
     flex:1,
-    width:'50%',
+    width:'70%',
     alignItems: 'flex-end',
-    justifyContent: 'space-around',
-  },
-  buttonView:{
-    alignItems: 'center',
     justifyContent: 'space-around',
   },
   buttonCancelStyle:{
     backgroundColor: '#efefef',
     height:35,
+    width:70,
     borderRadius: 3,
     padding:7,
     justifyContent: 'center',
@@ -39,6 +36,7 @@ export default StyleSheet.create({
   buttonConfirmStyle:{
     backgroundColor: '#7cd1f9',
     height:35,
+    width:70,
     borderRadius: 3,
     padding:7,
     justifyContent: 'center',
@@ -48,9 +46,12 @@ export default StyleSheet.create({
     color:'#555',
     fontSize:15,
     alignSelf:'center',
+    fontWeight: 'bold',
   },
   textConfirmStyle: {
     color:'#ffffff',
     fontSize: 15,
+    alignSelf: 'center',
+    fontWeight:'bold',
   },
 });

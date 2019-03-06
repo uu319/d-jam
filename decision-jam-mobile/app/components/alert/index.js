@@ -32,7 +32,7 @@ export default class PromptAlert extends PureComponent {
         transparent
         style={modalContainer}
         animationIn="slideInUp"
-        animationInTiming={300}
+        animationInTiming={3000}
         onRequestClose={() => {}}
       >
         <View style={viewContainer}>
@@ -42,8 +42,8 @@ export default class PromptAlert extends PureComponent {
           <Text style={{
              fontSize: 20,
               textAlign: 'center',
-            }}
-          >
+              fontStyle:'Helvetica',
+            }}>
             Are you sure you want to continue?
           </Text>
 
