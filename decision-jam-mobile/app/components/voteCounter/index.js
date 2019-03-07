@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Text, View, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import firebase from 'react-native-firebase';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -63,15 +63,8 @@ export default class VoteCounter extends PureComponent {
       this.adjustVote(1);
       this.setUserVotes(1);
     } else {
-      Alert.alert(
-        // title
-        'STOP!',
-        // body
-        'You already used all your vote points.',
-        [{ text: 'Ok', onPress: () => console.log('Ok Pressed'), style: 'cancel' }],
-        { cancelable: false },
-        // clicking out side of alert will not cancel
-      );
+      console.log('no more vote');
+      this.props.modalVisible();
     }
   };
 
@@ -84,7 +77,7 @@ export default class VoteCounter extends PureComponent {
   };
 
   render() {
-    console.log('VoteCounterProps',this.props);
+    console.log('VoteCounterProps', this.props);
     return (
       <View style={styles.content}>
         <Text style={styles.itemprop}> {this.props.content}</Text>

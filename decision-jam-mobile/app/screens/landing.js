@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions, Text, Alert } from 'react-native';
+import { StyleSheet, View, Dimensions, Text } from 'react-native';
 import firebase from 'react-native-firebase';
 import { GLOBAL_STYLES } from '../config/constants';
 import Button from '../components/button';
@@ -74,24 +74,9 @@ export default class Landing extends React.Component {
     },
   ];
 
-  _alert = () => {
-    Alert.alert(
-      // title
-      'Hello',
-      // body
-      'I am two option alert. Do you want to cancel me ?',
-      [
-        { text: 'Yes', onPress: () => console.log('Yes Pressed') },
-        { text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel' },
-      ],
-      { cancelable: false },
-      // clicking out side of alert will not cancel
-    );
-  };
-
   render() {
     if (this.state.loading) return null; // create loader component
-    // <Button title='Alert' onPress={this._alert}/>
+
     return (
       <View style={styles.container}>
         <View style={styles.header}>

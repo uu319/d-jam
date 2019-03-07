@@ -1,49 +1,38 @@
 import React, { Component } from 'react';
-import { Modal, Text, TouchableHighlight, View, Alert } from 'react-native';
+import { Text, View, Button } from 'react-native';
+import PropTypes from 'prop-types';
+import Modal from 'react-native-modal';
+import styles from './styles';
+import { GLOBAL_STYLES } from '../../config/constants';
 
-export default class SampleModal extends Component {
-  state = {
-    modalVisible: false,
+export default class PromptModal extends Component {
+  onModalToggle = () => {
+    this.props.onModalToggle();
   };
-
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
-  }
-
   render() {
+    const { title, text } = this.props;
     return (
-      <View style={{ marginTop: 22 }}>
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
+      <Modal isVisible={this.props.visible}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          <View style={{ marginTop: 22 }}>
-            <View>
-              <Text>Hello World!</Text>
-
-              <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                }}
-              >
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
-            </View>
+          <View style={styles.container}>
+            <Text style={styles.title}>{title}</Text>
+            <Text>{text}</Text>
+            <Button title="Hide" onPress={this.onModalToggle} color={GLOBAL_STYLES.BRAND_COLOR} />
           </View>
-        </Modal>
-
-        <TouchableHighlight
-          onPress={() => {
-            this.setModalVisible(true);
-          }}
-        >
-          <Text>Show Modal</Text>
-        </TouchableHighlight>
-      </View>
+        </View>
+      </Modal>
     );
   }
 }
+
+PromptModal.propTypes = {
+  title: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+};

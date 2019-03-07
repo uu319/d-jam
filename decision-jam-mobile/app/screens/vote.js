@@ -8,6 +8,7 @@ import VoteCounter from '../components/voteCounter';
 import MaxVoteSetting from '../components/maxVoteSetting';
 import Button from '../components/button';
 import PromptAlert from '../components/alert';
+import PromptModal from '../components/modal';
 
 const roomData = {
   currentVotes: 0,
@@ -23,11 +24,12 @@ export default class VoteRoom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      voteAlertVisible:false,
+      voteAlertVisible: false,
       userId: this.props.navigation.getParam('userId', null),
       roomCode: this.props.navigation.getParam('roomCode', null),
       roomData,
       currentVote: 0,
+      voteModalVisible: false,
     };
 
     this.listenToRoomChanges = this.listenToRoomChanges.bind(this);
@@ -41,7 +43,6 @@ export default class VoteRoom extends React.Component {
     this.listenToRoomChanges = null;
     this.setState({ voteAlertVisible: false });
   }
-
 
   onPress = page => {
     // console.log('totalGivenVotes',this.state.roomData.totalGivenVotes);
@@ -63,6 +64,10 @@ export default class VoteRoom extends React.Component {
   };
   onAlertCancel = () => {
     this.setState({ voteAlertVisible: false });
+  };
+
+  onModalToggle = () => {
+    this.setState({ voteModalVisible: !this.state.voteModalVisible });
   };
 
   getCurrentVotes = curVotes => {
@@ -87,7 +92,7 @@ export default class VoteRoom extends React.Component {
   refreshRoom = roomValues => {
     let { posts, users } = roomValues;
     const { metadata } = roomValues;
-    console.log('roomValues',roomValues);
+    console.log('roomValues', roomValues);
     // console.log(posts);
 
     if (_.isEmpty(posts)) posts = {};
@@ -160,6 +165,12 @@ export default class VoteRoom extends React.Component {
     }));
   };
 
+  modalVisible = () => {
+    console.log('Entered Modal Visible');
+
+    this.setState({ voteModalVisible: true });
+  };
+
   VoteItems = () => {
     const { posts, yourCurrentTotal, maxVotes } = this.state.roomData;
     const items = [];
@@ -185,19 +196,21 @@ export default class VoteRoom extends React.Component {
         data,
         index,
         userId: this.state.userId,
-        roomCode:this.state.roomCode,
+        roomCode: this.state.roomCode,
         max: parseInt(maxVotes, 10),
-        current:yourCurrentTotal,
-        currentVote:this.state.currentVote,
-        addCurrentVote:this.addCurrentVote,
+        current: yourCurrentTotal,
+        currentVote: this.state.currentVote,
+        addCurrentVote: this.addCurrentVote,
+        modalVisible: this.modalVisible,
       });
     });
     const uniqueItems = _.uniqBy(items, item => item.data.content);
     // console.log('uniqueItems', uniqueItems);
 
-    return uniqueItems.map(data =>{
-      console.log('data passed to vouteCounter',data);
-      return <VoteCounter
+    return uniqueItems.map(data => {
+      console.log('data passed to voteCounter', data);
+      return (
+        <VoteCounter
           {...data.data}
           key={data.index}
           id={data.index}
@@ -207,7 +220,9 @@ export default class VoteRoom extends React.Component {
           current={yourCurrentTotal}
           currentVote={this.state.currentVote}
           addCurrentVote={this.addCurrentVote}
+          modalVisible={this.modalVisible}
         />
+      );
     });
     // return items;
   };
@@ -227,7 +242,14 @@ export default class VoteRoom extends React.Component {
         <PromptAlert
           visible={this.state.voteAlertVisible}
           onModalConfirm={this.onAlertConfirm}
-          onModalCancel={this.onAlertCancel}/>
+          onModalCancel={this.onAlertCancel}
+        />
+        <PromptModal
+          visible={this.state.voteModalVisible}
+          onModalToggle={this.onModalToggle}
+          title="Stop!"
+          text="No more vote points"
+        />
         <Text style={styles.title}> {topic} </Text>
         {adminId === this.state.userId && (
           <View>
@@ -250,7 +272,7 @@ export default class VoteRoom extends React.Component {
           </View>
         </View>
         <ScrollView>
-           <View>{this.VoteItems()}</View>
+          <View>{this.VoteItems()}</View>
         </ScrollView>
         <View style={styles.button}>
           {this.state.roomData.adminId === this.state.userId && (
