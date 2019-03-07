@@ -6,6 +6,7 @@ import { GLOBAL_STYLES } from '../config/constants';
 import Button from '../components/button';
 import Input from '../components/input';
 import BrandedText from '../components/brandedText';
+import PromptModal from '../components/modal';
 
 const STAGES = {
   posting: 'Post',
@@ -18,6 +19,7 @@ export default class JoinRoom extends Component {
     userId: this.props.navigation.getParam('userId', null),
     roomCode: this.props.navigation.getParam('roomCode', null),
     isJoinDisabled: true,
+    errorModalVisible: false,
   };
 
   onChangeText = roomCode => {
@@ -27,6 +29,15 @@ export default class JoinRoom extends Component {
       roomCode,
       isJoinDisabled: state,
     });
+  };
+
+  onModalToggle = () => {
+    this.setState({ errorModalVisible: !this.state.errorModalVisible });
+  };
+
+  modalVisible = () => {
+    console.log('Entered Modal Visible');
+    this.setState({ errorModalVisible: true });
   };
 
   navigate = () => {
@@ -55,8 +66,9 @@ export default class JoinRoom extends Component {
     usersDataRef
       .set({ current_votes: { nothing: 0 } }, error => {
         if (error) {
-          console.log('error trying to join. will try to create.', error);
-          this.joinUser();
+          this.modalVisible();
+          // console.log('error trying to join. will try to create.', error);
+          // this.joinUser();
         }
       })
       .then(error => {
@@ -74,6 +86,15 @@ export default class JoinRoom extends Component {
     const { isJoinDisabled } = this.state;
     return (
       <View style={styles.container}>
+        <PromptModal
+          visible={this.state.errorModalVisible}
+          modalID="ErrorJoin"
+          onModalToggle={this.onModalToggle}
+          title="OOPS!"
+          text="Room Not Found."
+          isContinue={false}
+          cancelButtonTxt="Ok"
+        />
         <BrandedText style={styles.title} content="Room code" />
         <Input
           onChangeText={this.onChangeText}

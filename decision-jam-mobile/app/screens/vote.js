@@ -7,7 +7,7 @@ import { GLOBAL_STYLES, STAGE_VOTE, STAGE_REVEAL, STAGE_POST } from '../config/c
 import VoteCounter from '../components/voteCounter';
 import MaxVoteSetting from '../components/maxVoteSetting';
 import Button from '../components/button';
-import PromptAlert from '../components/alert';
+// import PromptAlert from '../components/alert';
 import PromptModal from '../components/modal';
 
 const roomData = {
@@ -40,8 +40,9 @@ export default class VoteRoom extends React.Component {
   }
 
   componentWillUnmount() {
-    this.listenToRoomChanges = null;
     this.setState({ voteAlertVisible: false });
+    this.setState({ voteModalVisible: false });
+    this.listenToRoomChanges = null;
   }
 
   onPress = page => {
@@ -66,10 +67,17 @@ export default class VoteRoom extends React.Component {
     this.setState({ voteAlertVisible: false });
   };
 
-  onModalToggle = () => {
-    this.setState({ voteModalVisible: !this.state.voteModalVisible });
+  onModalToggle = modalID => {
+    if (modalID === 'NoVote') {
+      this.setState({ voteModalVisible: !this.state.voteModalVisible });
+    } else {
+      this.setState({ voteAlertVisible: !this.state.voteAlertVisible });
+    }
   };
 
+  // onContinueModalToggle = () => {
+  //   this.setState({ voteModalVisible: !this.state.voteAlertVisible });
+  // };
   getCurrentVotes = curVotes => {
     let total = 0;
 
@@ -167,7 +175,6 @@ export default class VoteRoom extends React.Component {
 
   modalVisible = () => {
     console.log('Entered Modal Visible');
-
     this.setState({ voteModalVisible: true });
   };
 
@@ -239,16 +246,29 @@ export default class VoteRoom extends React.Component {
 
     return (
       <View style={styles.container}>
-        <PromptAlert
+        {/* <PromptAlert
           visible={this.state.voteAlertVisible}
           onModalConfirm={this.onAlertConfirm}
           onModalCancel={this.onAlertCancel}
+        /> */}
+        <PromptModal
+          visible={this.state.voteAlertVisible}
+          modalID="NotContinue"
+          onModalToggle={this.onModalToggle}
+          onAlertConfirm={this.onAlertConfirm}
+          title="WAIT!"
+          text="Are you sure you want to continue?"
+          isContinue
+          cancelButtonTxt="No"
         />
         <PromptModal
           visible={this.state.voteModalVisible}
+          modalID="NoVote"
           onModalToggle={this.onModalToggle}
-          title="Stop!"
-          text="No more vote points"
+          title="STOP!"
+          isContinue={false}
+          text="You already used all your vote points."
+          cancelButtonTxt="Ok"
         />
         <Text style={styles.title}> {topic} </Text>
         {adminId === this.state.userId && (

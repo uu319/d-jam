@@ -42,8 +42,8 @@ export default class PostRoom extends PureComponent {
 
       countdownTimer: '',
       countdownInterval: null,
-      placeholder: '0:00 | Suggest...',
-      roomData:_.cloneDeep(roomData),
+      placeholder: '0:00 | Suggest an answer...',
+      roomData: _.cloneDeep(roomData),
     };
     this.listenToRoomChanges = this.listenToRoomChanges.bind(this);
   }
@@ -135,7 +135,7 @@ export default class PostRoom extends PureComponent {
       countdownTimer -= 1;
       if (countdownTimer < 0) {
         clearInterval(countdownInterval);
-        this.setState({ countdownTimer});
+        this.setState({ countdownTimer });
       }
       // console.log('currentTest', this.state);
       this.setState({ countdownInterval, countdownTimer });
@@ -150,7 +150,7 @@ export default class PostRoom extends PureComponent {
       const currentTime = new Date().getTime();
       countdownTimer = (targetTime - currentTime) / 1000;
     }
-    if (countdownTimer < 0 || targetTime- new Date().getTime() < 0) {
+    if (countdownTimer < 0 || targetTime - new Date().getTime() < 0) {
       this.setState({ countdownTimer: 0 });
     }
 
@@ -235,7 +235,6 @@ export default class PostRoom extends PureComponent {
   };
 
   refreshRoom = roomValues => {
-
     let { posts, users } = roomValues;
     const { metadata } = roomValues;
 
@@ -296,7 +295,7 @@ export default class PostRoom extends PureComponent {
 
     return (
       <View style={styles.container} behavior="padding" enabled>
-        <Text style={{fontSize:24}}>{roomCode}</Text>
+        <Text style={{ fontSize: 24 }}>{roomCode}</Text>
         <View style={styles.container}>
           <TopicInput
             roomCode={roomCode}
@@ -346,8 +345,8 @@ const styles = StyleSheet.create({
   },
   button: {
     marginLeft: 20,
-    marginRight:20,
-    marginBottom:10,
+    marginRight: 20,
+    marginBottom: 10,
     alignSelf: 'stretch',
   },
   text: {
@@ -356,7 +355,7 @@ const styles = StyleSheet.create({
   input: {
     flexDirection: 'row',
     alignSelf: 'stretch',
-    paddingLeft:10,
+    paddingLeft: 10,
     justifyContent: 'center',
   },
   topic: {

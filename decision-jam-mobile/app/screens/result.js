@@ -6,7 +6,8 @@ import _ from 'lodash';
 import { GLOBAL_STYLES, STAGE_REVEAL, STAGE_POST } from '../config/constants';
 import Result from '../components/postedItem';
 import Button from '../components/button';
-import PromptAlert from '../components/alert';
+// import PromptAlert from '../components/alert';
+import PromptModal from '../components/modal';
 
 const roomData = {
   post_contents: [],
@@ -24,7 +25,7 @@ export default class ResultRoom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      restartAlertVisible:false,
+      restartAlertVisible: false,
       userId: this.props.navigation.getParam('userId', null),
       roomCode: this.props.navigation.getParam('roomCode', null),
       roomData,
@@ -46,7 +47,6 @@ export default class ResultRoom extends React.Component {
     if (page === 'Post') {
       this.setState({ restartAlertVisible: true });
       // Restart jam
-
     } else {
       // roomCode -> null :: avoids going back to Post page when admin restarts jam, considering the user joined the room after the jam. Does not work when user joined before jam ended
       this.state.roomCode = null;
@@ -167,10 +167,20 @@ export default class ResultRoom extends React.Component {
     const { adminId, topic } = this.state.roomData;
     return (
       <View style={styles.container}>
-      <PromptAlert
+        {/* <PromptAlert
         visible={this.state.restartAlertVisible}
         onModalConfirm={this.onAlertConfirm}
           onModalCancel={this.onAlertCancel}
+        /> */}
+        <PromptModal
+          visible={this.state.restartAlertVisible}
+          modalID="Restart"
+          onModalToggle={this.onAlertCancel}
+          onAlertConfirm={this.onAlertConfirm}
+          title="WAIT!"
+          text="Delete All and Restart?"
+          isContinue
+          cancelButtonTxt="No"
         />
         <View style={styles.header}>
           <Text style={styles.title}>Hooray! We&apos;ve got winners!</Text>
