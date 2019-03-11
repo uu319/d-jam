@@ -1,5 +1,13 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, Text, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  Dimensions,
+  BackHandler,
+  ToastAndroid,
+} from 'react-native';
 import firebase from 'react-native-firebase';
 import _ from 'lodash';
 
@@ -36,10 +44,12 @@ export default class ResultRoom extends React.Component {
 
   componentDidMount() {
     this.listenToRoomChanges();
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   componentWillUnmount() {
     this.listenToRoomChanges = null;
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   onPress = page => {
@@ -52,6 +62,8 @@ export default class ResultRoom extends React.Component {
       this.state.roomCode = null;
       if (page === 'Home') {
         navigation.popToTop();
+      } else if (page === 'Download') {
+        console.log('Download Clicked');
       } else {
         navigation.navigate(page, {
           userId: this.state.userId,
@@ -86,6 +98,11 @@ export default class ResultRoom extends React.Component {
   onAlertCancel = () => {
     this.setState({ restartAlertVisible: false });
   };
+
+  handleBackButton() {
+    this.ToastAndroid.show("You can't go back to vote page!", ToastAndroid.SHORT);
+    return true;
+  }
 
   listenToRoomChanges = () => {
     console.log('listen to room changes...');
@@ -149,13 +166,20 @@ export default class ResultRoom extends React.Component {
   buttons = [
     {
       index: 1,
+      page: 'Download',
+      label: 'Download Result',
+      style: null,
+      color: GLOBAL_STYLES.BRAND_COLOR,
+    },
+    {
+      index: 2,
       page: 'Create',
       label: 'Create New Jam',
       style: null,
       color: GLOBAL_STYLES.BRAND_COLOR,
     },
     {
-      index: 2,
+      index: 3,
       page: 'Home',
       label: 'Home',
       style: 1,
