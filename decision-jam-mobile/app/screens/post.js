@@ -161,7 +161,7 @@ export default class PostRoom extends PureComponent {
     const time = `${minutes}:${seconds}`;
 
     this.setState({
-      placeholder: `${countdownTimer && countdownTimer > 0 ? time : '0:00'} | Suggest...`,
+      placeholder: `${countdownTimer && countdownTimer > 0 ? time : '0:00'} | Suggest an answer...`,
     });
   };
   extendTimer = () => {

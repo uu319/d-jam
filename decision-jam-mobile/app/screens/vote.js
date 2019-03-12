@@ -46,9 +46,6 @@ export default class VoteRoom extends React.Component {
   }
 
   onPress = page => {
-    // console.log('totalGivenVotes',this.state.roomData.totalGivenVotes);
-    // console.log('maxVoteCount', this.state.roomData.maxVotesCount);
-    // {totalGivenVotes} / {maxVotesCount}
     if (this.state.roomData.totalGivenVotes === this.state.roomData.maxVotesCount) {
       const roomStage = firebase.database().ref(`rooms/${this.state.roomCode}/metadata/stage`);
       const stage = page === 'Post' ? STAGE_POST : STAGE_REVEAL;
@@ -57,6 +54,7 @@ export default class VoteRoom extends React.Component {
       this.setState({ voteAlertVisible: true });
     }
   };
+
   onAlertConfirm = page => {
     this.setState({ voteAlertVisible: false });
     const roomStage = firebase.database().ref(`rooms/${this.state.roomCode}/metadata/stage`);
@@ -70,14 +68,11 @@ export default class VoteRoom extends React.Component {
   onModalToggle = modalID => {
     if (modalID === 'NoVote') {
       this.setState({ voteModalVisible: !this.state.voteModalVisible });
-    } else {
+    } else if (modalID === 'NotContinue') {
       this.setState({ voteAlertVisible: !this.state.voteAlertVisible });
     }
   };
 
-  // onContinueModalToggle = () => {
-  //   this.setState({ voteModalVisible: !this.state.voteAlertVisible });
-  // };
   getCurrentVotes = curVotes => {
     let total = 0;
 
@@ -101,7 +96,6 @@ export default class VoteRoom extends React.Component {
     let { posts, users } = roomValues;
     const { metadata } = roomValues;
     console.log('roomValues', roomValues);
-    // console.log(posts);
 
     if (_.isEmpty(posts)) posts = {};
     if (_.isEmpty(users)) users = {};
@@ -182,22 +176,6 @@ export default class VoteRoom extends React.Component {
     const { posts, yourCurrentTotal, maxVotes } = this.state.roomData;
     const items = [];
 
-    // _.mapKeys(posts, (data, index) => {
-    //   console.log(data);
-    //   items.push(
-    //     <VoteCounter
-    //       {...data}
-    //       key={index}
-    //       id={index}
-    //       userId={this.state.userId}
-    //       roomCode={this.state.roomCode}
-    //       max={parseInt(maxVotes, 10)}
-    //       current={yourCurrentTotal}
-    //       currentVote={this.state.currentVote}
-    //       addCurrentVote={this.addCurrentVote}
-    //     />,
-    //   );
-    // });
     _.mapKeys(posts, (data, index) => {
       items.push({
         data,
@@ -212,7 +190,6 @@ export default class VoteRoom extends React.Component {
       });
     });
     const uniqueItems = _.uniqBy(items, item => item.data.content);
-    // console.log('uniqueItems', uniqueItems);
 
     return uniqueItems.map(data => {
       console.log('data passed to voteCounter', data);
@@ -271,12 +248,14 @@ export default class VoteRoom extends React.Component {
           cancelButtonTxt="Ok"
         />
         <Text style={styles.title}> {topic} </Text>
+
         {adminId === this.state.userId && (
           <View>
             <View style={styles.input} />
             <MaxVoteSetting text={maxVotes.toString()} roomCode={this.state.roomCode} />
           </View>
         )}
+
         <View style={styles.status}>
           <View style={styles.votes}>
             <Text>
@@ -291,9 +270,11 @@ export default class VoteRoom extends React.Component {
             <Text>Your Votes</Text>
           </View>
         </View>
+
         <ScrollView>
           <View>{this.VoteItems()}</View>
         </ScrollView>
+
         <View style={styles.button}>
           {this.state.roomData.adminId === this.state.userId && (
             <Button

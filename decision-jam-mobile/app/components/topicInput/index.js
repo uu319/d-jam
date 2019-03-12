@@ -33,7 +33,6 @@ export default class TopicInput extends PureComponent {
           onChangeText={this.props.onChange}
           onBlur={this.setTitle}
           value={this.props.topic}
-                // value={"sample topic"}
           editable={this.props.editable}
           multiline
         />

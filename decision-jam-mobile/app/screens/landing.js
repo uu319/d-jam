@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions, Text } from 'react-native';
+import { StyleSheet, View, Dimensions, Text, Linking, StatusBar } from 'react-native';
 import firebase from 'react-native-firebase';
+import Hyperlink from 'react-native-hyperlink';
 import { GLOBAL_STYLES } from '../config/constants';
 import Button from '../components/button';
 import BrandedText, { TYPE_LABEL } from '../components/brandedText';
@@ -79,12 +80,14 @@ export default class Landing extends React.Component {
 
     return (
       <View style={styles.container}>
+        <StatusBar backgroundColor="black" barStyle="light-content" />
         <View style={styles.header}>
           <BrandedText style={styles.title} content="Decision Jam" type={TYPE_LABEL} />
         </View>
         <View style={styles.subcontain}>
           <Text style={styles.sub}>
-            Post, Vote, Reveal: Crowdsource ideas and make better decisions quickly with your team
+            Post, Vote, Reveal: {'\n'}Crowdsource ideas and make better decisions quickly with your
+            team
           </Text>
         </View>
 
@@ -102,17 +105,24 @@ export default class Landing extends React.Component {
           ))}
         </View>
         <View style={styles.footer}>
-          <BrandedText
+          {/* <BrandedText
             style={styles.feedback}
-            content="© 2018 Decision Jam | Made with 💖 by Symph"
+            content="© 2018 Decision Jam | Made with 💖 by"
             type={TYPE_LABEL}
-          />
+          /> */}
+          <Hyperlink
+            linkStyle={styles.link}
+            linkText={url => (url === 'https://www.symph.co/' ? 'Symph' : url)}
+            onPress={() => Linking.openURL('https://www.symph.co/')}
+          >
+            <Text style={styles.feedback}>
+              © 2018 Decision Jam | Made with 💖 by https://www.symph.co/
+            </Text>
+          </Hyperlink>
           <BrandedText style={styles.feedback} content="We love your feedback." type={TYPE_LABEL} />
-          <BrandedText
-            style={styles.link}
-            content="Send to decisionjam@symph.co"
-            type={TYPE_LABEL}
-          />
+          <Hyperlink onPress={() => Linking.openURL('mailto:decisionjam@symph.co')}>
+            <Text style={styles.link}>Send to decisionjam@symph.co</Text>
+          </Hyperlink>
         </View>
       </View>
     );
@@ -160,9 +170,9 @@ const styles = StyleSheet.create({
   },
   feedback: {
     textAlign: 'center',
+    color: '#1C1E3F',
   },
   link: {
-    textAlign: 'center',
     color: '#fc3f73',
   },
 });

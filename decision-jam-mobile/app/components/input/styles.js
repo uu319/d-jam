@@ -25,7 +25,7 @@ export default StyleSheet.create({
     color: GLOBAL_STYLES.BRAND_COLOR,
     fontWeight: 'bold',
     width: Dimensions.get('window').width * 0.8,
-    borderColor: '#fc3f73',
+    borderColor: '#d3d3d3',
     borderWidth: 1,
   },
   iconStyle: {

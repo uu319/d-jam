@@ -95,7 +95,7 @@ export default class JoinRoom extends Component {
           isContinue={false}
           cancelButtonTxt="Ok"
         />
-        <BrandedText style={styles.title} content="Room code" />
+        <BrandedText style={styles.title} content="Room Code" />
         <Input
           onChangeText={this.onChangeText}
           placeholder="Enter room code"
@@ -124,8 +124,9 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   title: {
-    fontSize: 40,
-    color: GLOBAL_STYLES.SECONDARY_COLOR,
+    fontSize: 35,
+    color: GLOBAL_STYLES.BRAND_COLOR,
+    fontWeight: 'bold',
   },
   button: {
     alignSelf: 'stretch',

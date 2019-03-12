@@ -99,10 +99,10 @@ export default class ResultRoom extends React.Component {
     this.setState({ restartAlertVisible: false });
   };
 
-  handleBackButton() {
-    this.ToastAndroid.show("You can't go back to vote page!", ToastAndroid.SHORT);
+  handleBackButton = () => {
+    ToastAndroid.show("You can't go back to vote page!", ToastAndroid.SHORT);
     return true;
-  }
+  };
 
   listenToRoomChanges = () => {
     console.log('listen to room changes...');
@@ -191,11 +191,6 @@ export default class ResultRoom extends React.Component {
     const { adminId, topic } = this.state.roomData;
     return (
       <View style={styles.container}>
-        {/* <PromptAlert
-        visible={this.state.restartAlertVisible}
-        onModalConfirm={this.onAlertConfirm}
-          onModalCancel={this.onAlertCancel}
-        /> */}
         <PromptModal
           visible={this.state.restartAlertVisible}
           modalID="Restart"
@@ -280,5 +275,6 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 2,
+    // width: 50,
   },
 });
