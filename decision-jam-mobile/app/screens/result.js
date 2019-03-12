@@ -202,7 +202,7 @@ export default class ResultRoom extends React.Component {
           cancelButtonTxt="No"
         />
         <View style={styles.header}>
-          <Text style={styles.title}>Hooray! We&apos;ve got winners!</Text>
+          <Text style={styles.title}>Hooray! We&apos;ve got winners! 🎉</Text>
           <Text
             style={{
               color: GLOBAL_STYLES.SECONDARY_COLOR,

@@ -1,12 +1,23 @@
 {
-  "plugins": ["prettier", "react", "react-native", "jsx-a11y", "import"],
-  "extends": ["airbnb", "prettier", "prettier/react"],
+  "plugins": [
+    "prettier",
+    "react",
+    "react-native",
+    "jsx-a11y",
+    "import"
+  ],
+  "extends": [
+    "airbnb",
+    "prettier",
+    "prettier/react"
+  ],
   "env": {
     "node": true,
     "es6": true,
     "mocha": true
   },
   "rules": {
+    "jsx-a11y/accessible-emoji": "off",
     "prettier/prettier": [
       "error",
       {
@@ -22,25 +33,50 @@
       }
     ],
     "no-use-before-define": 0,
-    "import/no-unresolved": [2, {
-      "ignore": [".png$", ".webp$", ".jpg$", "ViewPropTypes"]
-    }],
+    "import/no-unresolved": [
+      2,
+      {
+        "ignore": [
+          ".png$",
+          ".webp$",
+          ".jpg$",
+          "ViewPropTypes"
+        ]
+      }
+    ],
     "no-console": 0,
     "react/jsx-filename-extension": [
       0,
       {
-        "extensions": [".js", ".jsx"]
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
       }
     ],
-    "no-underscore-dangle": [1, { "allow": ["__typename"] }],
+    "no-underscore-dangle": [
+      1,
+      {
+        "allow": [
+          "__typename"
+        ]
+      }
+    ],
     "react/prefer-stateless-function": 0,
-    "react/forbid-prop-types": [0, {
-      "forbid": []
-    }],
+    "react/forbid-prop-types": [
+      0,
+      {
+        "forbid": []
+      }
+    ],
     "react/prop-types": 0,
-    "import/extensions": [1, "never", {
-      "svg": "always"
-    }],
+    "import/extensions": [
+      1,
+      "never",
+      {
+        "svg": "always"
+      }
+    ],
     "import/no-extraneous-dependencies": [
       "error",
       {
