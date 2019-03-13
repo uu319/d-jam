@@ -53,8 +53,9 @@ export default class CreateRoom extends React.Component {
     console.log('creating room...', roomCode);
 
     // add 92 seconds to time. additional 2 seconds so it looks like 1:30min
-    let targetTime = new Date().getTime();
-    targetTime += 92 * 1000;
+    // let targetTime = new Date().getTime();
+    // targetTime += 92 * 1000;
+    // transfered the initializing of time in post;
 
     // initialize metadata
     const metadateData = firebase.database().ref(`rooms/${roomCode}/metadata`);
@@ -62,7 +63,6 @@ export default class CreateRoom extends React.Component {
       max_votes: 2,
       admin: this.state.userId,
       topic: this.state.text === '' ? 'Topics? Ideas?' : this.state.text.trim(),
-      target_time: targetTime,
       stage: STAGE_POST,
     };
 
