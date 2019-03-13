@@ -162,6 +162,14 @@ export default class ResultRoom extends React.Component {
     });
 
     return items;
+    // _.mapKeys(orderedVotes, (data, index) => {
+    //   items.push({
+    //     key: index,
+    //     data,
+    //   });
+    // });
+    // const uniqueItems = _.uniqBy(items, item => item.data.content);
+    // return uniqueItems.map(data => <Result {...data.data} key={data.index} />);
   };
 
   buttons = [
