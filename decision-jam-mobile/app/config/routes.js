@@ -49,7 +49,7 @@ const AppSwitchNavigator = createStackNavigator(
       screen: VoteRoom,
       navigationOptions: {
         ...defaultNavOptions,
-        headerTitle: 'Post',
+        headerTitle: 'Vote',
         headerLeft: null,
         gesturesEnabled: false,
       },
@@ -58,7 +58,7 @@ const AppSwitchNavigator = createStackNavigator(
       screen: ResultRoom,
       navigationOptions: {
         ...defaultNavOptions,
-        headerTitle: 'Post',
+        headerTitle: 'Result',
         headerLeft: null,
         gesturesEnabled: false,
       },

@@ -10,6 +10,7 @@ export default StyleSheet.create({
   },
   title: {
     fontSize: 20,
+    fontWeight: 'bold',
   },
   buttons: {
     flexDirection: 'row',

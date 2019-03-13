@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, ScrollView, BackHandler } from 'react-native';
 import firebase from 'react-native-firebase';
 import _ from 'lodash';
 
@@ -37,12 +37,14 @@ export default class VoteRoom extends React.Component {
 
   componentDidMount() {
     this.listenToRoomChanges();
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   componentWillUnmount() {
     this.setState({ voteAlertVisible: false });
     this.setState({ voteModalVisible: false });
     this.listenToRoomChanges = null;
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   onPress = page => {
@@ -55,11 +57,8 @@ export default class VoteRoom extends React.Component {
     }
   };
 
-  onAlertConfirm = page => {
-    this.setState({ voteAlertVisible: false });
-    const roomStage = firebase.database().ref(`rooms/${this.state.roomCode}/metadata/stage`);
-    const stage = page === 'Post' ? STAGE_POST : STAGE_REVEAL;
-    roomStage.set(stage);
+  onAlertConfirm = () => {
+    this.setState({ voteAlertVisible: false }, this.changeRoom());
   };
   onAlertCancel = () => {
     this.setState({ voteAlertVisible: false });
@@ -80,6 +79,19 @@ export default class VoteRoom extends React.Component {
       total += curVotes[key];
     });
     return total;
+  };
+
+  changeRoom = page => {
+    const roomStage = firebase.database().ref(`rooms/${this.state.roomCode}/metadata/stage`);
+    const stage = page === 'Post' ? STAGE_POST : STAGE_REVEAL;
+    roomStage.set(stage);
+  };
+
+  handleBackButton = () => {
+    firebase
+      .database()
+      .ref(`rooms/${this.state.roomCode}/metadata/stage`)
+      .set(STAGE_POST);
   };
 
   listenToRoomChanges = () => {

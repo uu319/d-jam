@@ -4,7 +4,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
 import styles from './styles';
-import { GLOBAL_STYLES } from '../../config/constants';
 
 export default class PromptModal extends Component {
   onModalToggle = modalID => {
@@ -17,9 +16,7 @@ export default class PromptModal extends Component {
     const { title, text, cancelButtonTxt, isContinue, modalID } = this.props;
     let contButton;
     if (isContinue) {
-      contButton = (
-        <Button title="Yes" onPress={this.onAlertConfirm} color={GLOBAL_STYLES.BRAND_COLOR} />
-      );
+      contButton = <Button title="Yes" onPress={this.onAlertConfirm} color="#7cd1f9" />;
     }
     return (
       <Modal isVisible={this.props.visible} onBackdropPress={this.onModalToggle}>
@@ -44,7 +41,7 @@ export default class PromptModal extends Component {
                 <Button
                   title={`${cancelButtonTxt}`}
                   onPress={() => this.onModalToggle(`${modalID}`)}
-                  color={GLOBAL_STYLES.BRAND_COLOR}
+                  color="#7c7c7c"
                 />
               </View>
             </View>

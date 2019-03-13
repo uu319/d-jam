@@ -48,6 +48,7 @@ export default class ResultRoom extends React.Component {
   }
 
   componentWillUnmount() {
+    this.setState({ restartAlertVisible: false });
     this.listenToRoomChanges = null;
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
