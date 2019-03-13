@@ -187,40 +187,56 @@ export default class VoteRoom extends React.Component {
   VoteItems = () => {
     const { posts, yourCurrentTotal, maxVotes } = this.state.roomData;
     const items = [];
+    console.log('posts', posts);
 
     _.mapKeys(posts, (data, index) => {
-      items.push({
-        data,
-        index,
-        userId: this.state.userId,
-        roomCode: this.state.roomCode,
-        max: parseInt(maxVotes, 10),
-        current: yourCurrentTotal,
-        currentVote: this.state.currentVote,
-        addCurrentVote: this.addCurrentVote,
-        modalVisible: this.modalVisible,
-      });
-    });
-    const uniqueItems = _.uniqBy(items, item => item.data.content);
-
-    return uniqueItems.map(data => {
-      console.log('data passed to voteCounter', data);
-      return (
+      items.push(
         <VoteCounter
-          {...data.data}
-          key={data.index}
-          id={data.index}
+          {...data}
+          key={index}
+          id={index}
           userId={this.state.userId}
           roomCode={this.state.roomCode}
           max={parseInt(maxVotes, 10)}
           current={yourCurrentTotal}
           currentVote={this.state.currentVote}
           addCurrentVote={this.addCurrentVote}
-          modalVisible={this.modalVisible}
-        />
+        />,
       );
     });
-    // return items;
+    return items.reverse();
+    // let uniqueItems = [];
+    // _.mapKeys(posts, (data, index) => {
+    //   items.push({
+    //     data,
+    //     index,
+    //     userId: this.state.userId,
+    //     roomCode: this.state.roomCode,
+    //     max: parseInt(maxVotes, 10),
+    //     current: yourCurrentTotal,
+    //     currentVote: this.state.currentVote,
+    //     addCurrentVote: this.addCurrentVote,
+    //     modalVisible: this.modalVisible,
+    //   });
+    // });
+    // uniqueItems = _.uniqBy(items, item => item.data.content);
+    // return uniqueItems.map(data => {
+    //   console.log('data passed to voteCounter', data);
+    //   return (
+    //     <VoteCounter
+    //       {...data.data}
+    //       key={data.index}
+    //       id={data.index}
+    //       userId={this.state.userId}
+    //       roomCode={this.state.roomCode}
+    //       max={parseInt(maxVotes, 10)}
+    //       current={yourCurrentTotal}
+    //       currentVote={this.state.currentVote}
+    //       addCurrentVote={this.addCurrentVote}
+    //       modalVisible={this.modalVisible}
+    //     />
+    //   );
+    // });
   };
 
   render() {
