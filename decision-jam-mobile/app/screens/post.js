@@ -48,9 +48,13 @@ export default class PostRoom extends PureComponent {
     this.listenToRoomChanges = this.listenToRoomChanges.bind(this);
   }
 
+  componentWillMount() {
+    let targetTime = new Date().getTime();
+    targetTime += 93 * 1000;
+    const metadateData = firebase.database().ref(`rooms/${this.state.roomCode}/metadata`);
+    metadateData.update({ target_time: targetTime });
+  }
   componentDidMount() {
-    // this.setState({roomData[posts]:[]});
-
     this.listenToRoomChanges();
   }
 
@@ -117,7 +121,7 @@ export default class PostRoom extends PureComponent {
     } else {
       // assume that targetTime is still the same. keep things as is
     }
-    this.startTimer();
+    // this.startTimer();
   };
 
   startTimer = () => {
@@ -133,11 +137,10 @@ export default class PostRoom extends PureComponent {
       this.displayTime();
 
       countdownTimer -= 1;
-      if (countdownTimer < 0) {
+      if (countdownTimer <= 0) {
         clearInterval(countdownInterval);
-        this.setState({ countdownTimer });
+        this.setState({ countdownTimer: 0 });
       }
-      // console.log('currentTest', this.state);
       this.setState({ countdownInterval, countdownTimer });
     }, 1000);
   };
@@ -213,8 +216,19 @@ export default class PostRoom extends PureComponent {
         votes: 0,
         poster: userId,
       };
-      postsData.push(postContent);
-      this.getMyCards(postContent);
+      postsData
+        .orderByChild('content')
+        .equalTo(postText)
+        .once('value', snapshot => {
+          if (!snapshot.val()) {
+            console.log(snapshot.val());
+            postsData.push(postContent);
+          }
+        });
+      this.setState({ myPostContents: [...this.state.myPostContents, postContent] });
+
+      // postsData.push(postContent);
+      // this.getMyCards(postContent);
     } else if (userId === adminId) {
       this.extendTimer();
     }
