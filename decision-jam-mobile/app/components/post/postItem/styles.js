@@ -2,7 +2,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 export default StyleSheet.create({
   itemprop: {
-    fontSize: 20,
+    fontSize: 14,
     color: '#1F1F1F',
     width: Dimensions.get('window').width * 0.75,
     padding: 3,

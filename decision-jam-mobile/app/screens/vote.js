@@ -328,7 +328,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   title: {
-    fontSize: 40,
+    fontSize: 20,
+    fontWeight: 'bold',
     color: GLOBAL_STYLES.SECONDARY_COLOR,
   },
   itemprop: {

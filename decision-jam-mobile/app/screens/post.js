@@ -309,7 +309,7 @@ export default class PostRoom extends PureComponent {
 
     return (
       <View style={styles.container} behavior="padding" enabled>
-        <Text style={{ fontSize: 24 }}>{roomCode}</Text>
+        <Text style={{ fontSize: 14 }}>Room Code: {roomCode}</Text>
         <View style={styles.container}>
           <TopicInput
             roomCode={roomCode}

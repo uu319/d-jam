@@ -1,4 +1,6 @@
+import React from 'react';
 import { createStackNavigator } from 'react-navigation';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { GLOBAL_STYLES } from './constants';
 import Landing from '../screens/landing';
 import JoinRoom from '../screens/join';
@@ -59,7 +61,7 @@ const AppSwitchNavigator = createStackNavigator(
       navigationOptions: {
         ...defaultNavOptions,
         headerTitle: 'Result',
-        headerLeft: null,
+        headerLeft: <Icon name="home" size={30} color="#fc3f73" />,
         gesturesEnabled: false,
       },
     },

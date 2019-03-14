@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
     color: GLOBAL_STYLES.BRAND_COLOR,
   },
   title: {
-    fontSize: 35,
+    fontSize: 30,
     color: GLOBAL_STYLES.SECONDARY_COLOR,
     marginBottom: 20,
     textAlign: 'center',

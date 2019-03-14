@@ -3,7 +3,7 @@ import { GLOBAL_STYLES } from '../../config/constants';
 
 export default StyleSheet.create({
   itemprop: {
-    fontSize: 20,
+    fontSize: 14,
     color: '#1F1F1F',
     width: Dimensions.get('window').width * 0.5,
   },

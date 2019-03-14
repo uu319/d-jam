@@ -3,17 +3,17 @@ import { GLOBAL_STYLES } from '../../config/constants';
 
 export default StyleSheet.create({
   item: {
-    fontSize: 20,
+    fontSize: 14,
     padding: 10,
     fontWeight: 'bold',
   },
   itemprop: {
-    fontSize: 20,
+    fontSize: 14,
     color: '#1F1F1F',
     width: Dimensions.get('window').width * 0.5,
   },
   btn: {
-    fontSize: 20,
+    fontSize: 14,
     padding: 10,
     fontWeight: 'bold',
     color: GLOBAL_STYLES.BRAND_COLOR,

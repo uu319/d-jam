@@ -25,7 +25,7 @@ export default class TopicInput extends PureComponent {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Input
           style={styles.topic}
           mode="icon"
